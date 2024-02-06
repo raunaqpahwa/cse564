@@ -1,0 +1,143 @@
+/* CSS resets */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "DM Sans", sans-serif;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+label {
+  display: flex;
+  align-items: center;
+}
+
+.page-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  width: fit-content;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.root-container {
+  display: grid;
+  justify-content: space-evenly;
+  padding: 2rem;
+  padding-top: 1rem;
+  gap: 48px;
+  grid-template-columns: 1.5fr 3fr;
+  grid-auto-rows: 1fr;
+  grid-template-areas: "controls chart";
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  grid-area: controls;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 2px 4px 8px hsla(0deg 0% 0% / 0.3);
+  transition: box-shadow 500ms;
+}
+
+.controls:hover {
+  box-shadow: 2px 8px 16px hsla(0deg 0% 0% / 0.15);
+  transition: box-shadow 250ms;
+}
+
+.controls-wrapper {
+  display: grid;
+  grid-template-areas: "variables secondary";
+  grid-template-columns: 2fr 1fr;
+}
+
+.secondary-controls {
+  grid-area: secondary;
+}
+.axis-heading,
+.direction-heading {
+  color: #9ca3af;
+}
+
+.secondary-controls div:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
+.variable-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.controls .variable-heading {
+  margin-bottom: 0px;
+}
+
+.chart-heading {
+  margin-bottom: 32px;
+}
+
+.controls .click-to-plot {
+  margin-bottom: 8px;
+  color: #9ca3af;
+  font-weight: bold;
+}
+
+.variable-list li:not(:last-of-type) {
+  margin-bottom: 8px;
+}
+
+.chart {
+  grid-area: chart;
+  border-radius: 16px;
+  align-self: flex-start;
+  padding: 16px;
+  box-shadow: 2px 4px 8px hsla(0deg 0% 0% / 0.3);
+  transition: box-shadow 500ms;
+  min-height: 600px;
+}
+
+.chart:hover {
+  box-shadow: 2px 8px 16px hsla(0deg 0% 0% / 0.15);
+  transition: box-shadow 250ms;
+}

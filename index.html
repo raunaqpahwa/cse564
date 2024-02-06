@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,400;1,9..40,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Visualization</title>
+  </head>
+  <body>
+    <h1 class="page-heading">Effect of Smoking and Drinking on Body Vitals</h1>
+    <div class="root-container">
+      <div class="controls">
+        <h2 class="variable-heading">Variables</h2>
+        <p class="click-to-plot">Click a variable to plot</p>
+        <div class="controls-wrapper">
+          <ul class="variable-list"></ul>
+          <div class="secondary-controls">
+            <div class="axis-wrapper">
+              <h3 class="axis-heading">Axis</h3>
+              <label
+                ><input
+                  type="radio"
+                  name="axes"
+                  value="x"
+                  checked="true"
+                />&nbsp;X</label
+              >
+              <label><input type="radio" name="axes" value="y" />&nbsp;Y</label>
+            </div>
+            <div class="direction-wrapper">
+              <h3 class="direction-heading">Direction</h3>
+              <label
+                ><input
+                  type="radio"
+                  name="direction"
+                  value="vertical"
+                  checked="true"
+                />&nbsp;Vertical</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="direction"
+                  value="horizontal"
+                />&nbsp;Horizontal</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chart"><h2 class="chart-heading">Chart</h2></div>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
