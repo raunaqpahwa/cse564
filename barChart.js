@@ -1,31 +1,39 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import displayNames from "./constants.js";
 
-const plotHorizontalHistogram = (plotKey, plotData) => {
+const plotHorizontalBarChart = (plotKey, plotData) => {
   const margin = {
     top: 40,
-    left: 40,
     right: 20,
     bottom: 20,
+    left: 60,
   };
+
+  const groupings = plotData.reduce(
+    (acc, data) =>
+      acc.has(data[plotKey])
+        ? acc.set(data[plotKey], acc.get(data[plotKey]) + 1)
+        : acc.set(data[plotKey], 1),
+    new Map()
+  );
+
+  const maxValue = Array.from(groupings.values()).reduce((acc, val) =>
+    Math.max(acc, val)
+  );
 
   const width = 960;
   const height = 540;
 
-  const bins = d3
-    .bin()
-    .thresholds(10)
-    .value((d) => d[plotKey])(plotData);
+  const y = d3
+    .scaleBand()
+    .domain(plotData.map((d) => d[plotKey]))
+    .range([margin.top, height - margin.bottom])
+    .padding(0.7);
 
   const x = d3
     .scaleLinear()
-    .domain([0, d3.max(bins, (d) => d.length)])
+    .domain([0, maxValue])
     .range([margin.left, width - margin.right]);
-
-  const y = d3
-    .scaleLinear()
-    .domain([bins[0].x0, bins[bins.length - 1].x1])
-    .range([height - margin.bottom, margin.top]);
 
   const svg = d3
     .create("svg")
@@ -43,12 +51,12 @@ const plotHorizontalHistogram = (plotKey, plotData) => {
     .append("g")
     .attr("fill", "#0275ff")
     .selectAll()
-    .data(bins)
+    .data(plotData)
     .join("rect")
     .attr("x", (d) => margin.left)
-    .attr("width", (d) => x(d.length) - margin.left)
-    .attr("y", (d, i) => height - margin.bottom - (i + 1) * (y(d.x0) - y(d.x1)))
-    .attr("height", (d) => y(d.x0) - y(d.x1) - 1);
+    .attr("width", (d) => x(groupings.get(d[plotKey])) - margin.left)
+    .attr("y", (d) => y(d[plotKey]))
+    .attr("height", y.bandwidth());
 
   svg
     .append("g")
@@ -66,7 +74,7 @@ const plotHorizontalHistogram = (plotKey, plotData) => {
     .call(
       d3
         .axisBottom(x)
-        .ticks(width / 30)
+        .ticks(width / 40)
         .tickSizeOuter(0)
     )
     .call((g) =>
@@ -77,7 +85,7 @@ const plotHorizontalHistogram = (plotKey, plotData) => {
         .attr("fill", "currentColor")
         .style("font-size", "14px")
         .attr("text-anchor", "end")
-        .text(`→ Frequency`)
+        .text(`Frequency →`)
     );
 
   svg
@@ -86,7 +94,7 @@ const plotHorizontalHistogram = (plotKey, plotData) => {
     .call(
       d3
         .axisLeft(y)
-        .ticks(height / 40)
+        .ticks(height / 30)
         .tickSizeOuter(0)
     )
     .call((g) =>
@@ -99,14 +107,14 @@ const plotHorizontalHistogram = (plotKey, plotData) => {
         .attr("fill", "currentColor")
         .attr("text-anchor", "start")
         .text(
-          `${displayNames[plotKey]["displayName"]} ${displayNames[plotKey]["unit"]} ↑`
+          `${displayNames[plotKey]["displayName"]} ${displayNames[plotKey]["unit"]}`
         )
     );
 
   return svg.node();
 };
 
-const plotVerticalHistogram = (plotKey, plotData) => {
+const plotVerticalBarChart = (plotKey, plotData) => {
   const margin = {
     top: 40,
     right: 20,
@@ -114,22 +122,30 @@ const plotVerticalHistogram = (plotKey, plotData) => {
     left: 40,
   };
 
+  const groupings = plotData.reduce(
+    (acc, data) =>
+      acc.has(data[plotKey])
+        ? acc.set(data[plotKey], acc.get(data[plotKey]) + 1)
+        : acc.set(data[plotKey], 1),
+    new Map()
+  );
+
+  const maxValue = Array.from(groupings.values()).reduce((acc, val) =>
+    Math.max(acc, val)
+  );
+
   const width = 960;
   const height = 540;
 
-  const bins = d3
-    .bin()
-    .thresholds(10)
-    .value((d) => d[plotKey])(plotData);
-
   const x = d3
-    .scaleLinear()
-    .domain([bins[0].x0, bins[bins.length - 1].x1])
-    .range([margin.left, width - margin.right]);
+    .scaleBand()
+    .domain(plotData.map((d) => d[plotKey]))
+    .range([margin.left, width - margin.right])
+    .padding(0.7);
 
   const y = d3
     .scaleLinear()
-    .domain([0, d3.max(bins, (d) => d.length)])
+    .domain([0, maxValue])
     .range([height - margin.bottom, margin.top]);
 
   const svg = d3
@@ -146,17 +162,6 @@ const plotVerticalHistogram = (plotKey, plotData) => {
 
   svg
     .append("g")
-    .attr("fill", "#0275ff")
-    .selectAll()
-    .data(bins)
-    .join("rect")
-    .attr("x", (d) => x(d.x0) + 1)
-    .attr("width", (d) => x(d.x1) - x(d.x0) - 1)
-    .attr("y", (d) => y(d.length))
-    .attr("height", (d) => y(0) - y(d.length));
-
-  svg
-    .append("g")
     .append("text")
     .attr("x", width / 2)
     .attr("y", 14)
@@ -164,6 +169,20 @@ const plotVerticalHistogram = (plotKey, plotData) => {
     .style("font-size", "18px")
     .style("text-decoration", "underline")
     .text(`Distribution of ${displayNames[plotKey]["displayName"]}`);
+
+  svg
+    .append("g")
+    .attr("fill", "#0275ff")
+    .selectAll()
+    .data(plotData)
+    .join("rect")
+    .attr("x", (d) => x(d[plotKey]))
+    .attr("width", x.bandwidth())
+    .attr("y", (d) => y(groupings.get(d[plotKey])))
+    .attr(
+      "height",
+      (d) => height - margin.bottom - y(groupings.get(d[plotKey]))
+    );
 
   svg
     .append("g")
@@ -183,7 +202,7 @@ const plotVerticalHistogram = (plotKey, plotData) => {
         .style("font-size", "14px")
         .attr("text-anchor", "end")
         .text(
-          `${displayNames[plotKey]["displayName"]} ${displayNames[plotKey]["unit"]} →`
+          `${displayNames[plotKey]["displayName"]} ${displayNames[plotKey]["unit"]}`
         )
     );
 
@@ -211,9 +230,9 @@ const plotVerticalHistogram = (plotKey, plotData) => {
   return svg.node();
 };
 
-const plotHistogram = (plotKey, plotData, isHorizontal) =>
+const plotBarChart = (plotKey, plotData, isHorizontal) =>
   isHorizontal
-    ? plotHorizontalHistogram(plotKey, plotData)
-    : plotVerticalHistogram(plotKey, plotData);
+    ? plotHorizontalBarChart(plotKey, plotData)
+    : plotVerticalBarChart(plotKey, plotData);
 
-export default plotHistogram;
+export default plotBarChart;

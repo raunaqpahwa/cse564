@@ -16,23 +16,14 @@
     <h1 class="page-heading">Effect of Smoking and Drinking on Body Vitals</h1>
     <div class="root-container">
       <div class="controls">
-        <h2 class="variable-heading">Variables</h2>
+        <div class="variable-heading-pane">
+          <h2 class="variable-heading">Variables</h2>
+          <button class="directory-button">Variable Directory</button>
+        </div>
         <p class="click-to-plot">Click a variable to plot</p>
         <div class="controls-wrapper">
           <ul class="variable-list"></ul>
           <div class="secondary-controls">
-            <div class="axis-wrapper">
-              <h3 class="axis-heading">Axis</h3>
-              <label
-                ><input
-                  type="radio"
-                  name="axes"
-                  value="x"
-                  checked="true"
-                />&nbsp;X</label
-              >
-              <label><input type="radio" name="axes" value="y" />&nbsp;Y</label>
-            </div>
             <div class="direction-wrapper">
               <h3 class="direction-heading">Direction</h3>
               <label
@@ -51,11 +42,49 @@
                 />&nbsp;Horizontal</label
               >
             </div>
+            <div class="scatter-plot-wrapper">
+              <h3 class="scatter-plot-heading">Scatter Plot</h3>
+              <label>
+                <input type="checkbox" name="scatter-plot" />&nbsp;Scatter Plot
+              </label>
+              <div class="axis-wrapper">
+                <p class="axis-text">Axis</p>
+                <label
+                  ><input
+                    type="radio"
+                    name="axes"
+                    value="x"
+                    checked="true"
+                  />&nbsp;X</label
+                >
+                <label
+                  ><input type="radio" name="axes" value="y" />&nbsp;Y</label
+                >
+              </div>
+              <div class="scatter-x">
+                <p>
+                  X:&nbsp;<span class="scatter-x-variable" data-value=""></span>
+                </p>
+              </div>
+              <div class="scatter-y">
+                <p>
+                  Y:&nbsp;<span class="scatter-y-variable" data-value=""></span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="chart"><h2 class="chart-heading">Chart</h2></div>
     </div>
+    <div class="variable-directory">
+      <div class="dialog">
+        <h2 class="dialog-heading">Variable Directory</h2>
+        <button class="dialog-close">Close</button>
+        <div class="dialog-content"></div>
+      </div>
+    </div>
+    <script type="module" src="./populateVariableDirectory.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
