@@ -20,7 +20,7 @@ for (let value of Object.keys(displayNames)) {
   const unitValue = document.createElement("div");
   unitValue.textContent = currentValue["unit"]
     .split("")
-    .filter((val) => val !== "(" && val !== ")")
+    .filter((char) => char !== "(" && char !== ")")
     .join("");
   const typeValue = document.createElement("div");
   typeValue.textContent = currentValue["type"];
