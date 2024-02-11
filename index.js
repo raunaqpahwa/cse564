@@ -12,6 +12,7 @@ const scatterY = document.querySelector(".scatter-y-variable");
 const dialogClose = document.querySelector(".dialog-close");
 const directoryPane = document.querySelector(".variable-directory");
 const directoryButton = document.querySelector(".directory-button");
+changeAxes(true);
 
 directoryButton.addEventListener("click", (event) => {
   directoryPane.style.display = "flex";
@@ -23,8 +24,15 @@ dialogClose.addEventListener("click", () => {
   document.body.classList.toggle("hide-overflow");
 });
 
+function changeAxes(val) {
+  document.querySelectorAll('input[name="axes"]').forEach((input) => {
+    input.disabled = val;
+  });
+}
+
 scatter.addEventListener("click", (event) => {
   if (!event.target.checked) {
+    changeAxes(true);
     scatterX.dataset.value = "";
     scatterX.textContent = "";
     scatterY.dataset.value = "";
@@ -35,6 +43,8 @@ scatter.addEventListener("click", (event) => {
     if (selectedVar) {
       selectedVar.checked = false;
     }
+  } else {
+    changeAxes(false);
   }
 });
 let allKeys = null;
