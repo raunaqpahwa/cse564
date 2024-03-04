@@ -1,0 +1,151 @@
+const metadata = {
+  sex: { displayName: "Gender", isCategorical: true, unit: "", type: "String" },
+  age: { displayName: "Age", isCategorical: false, unit: "", type: "Number" },
+  bloodGlucose: {
+    displayName: "Blood Glucose",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  diastolicBloodPressure: {
+    displayName: "Diastolic Blood Pressure",
+    isCategorical: false,
+    unit: "(mm Hg)",
+    type: "Number",
+  },
+  drinks: {
+    displayName: "Drinks?",
+    isCategorical: true,
+    unit: "",
+    type: "String",
+  },
+  hdlCholestrol: {
+    displayName: "Good Cholestrol",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  hearLeft: {
+    displayName: "Left Hearing",
+    isCategorical: true,
+    unit: "",
+    type: "String",
+  },
+  hearRight: {
+    displayName: "Right Hearing",
+    isCategorical: true,
+    unit: "",
+    type: "String",
+  },
+  height: {
+    displayName: "Height",
+    isCategorical: false,
+    unit: "(cm)",
+    type: "Number",
+  },
+  hemoglobin: {
+    displayName: "Hemoglobin",
+    isCategorical: false,
+    unit: "(g/dL)",
+    type: "Number",
+  },
+  ldlCholestrol: {
+    displayName: "Bad Cholestrol",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  serumCreatinine: {
+    displayName: "Serum Creatinine",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  sightLeft: {
+    displayName: "Left Eye Sight",
+    isCategorical: false,
+    unit: "",
+    type: "Number",
+  },
+  sightRight: {
+    displayName: "Right Eye Sight",
+    isCategorical: false,
+    unit: "",
+    type: "Number",
+  },
+  smokes: {
+    displayName: "Smokes?",
+    isCategorical: true,
+    unit: "",
+    type: "String",
+  },
+  systolicBloodPressure: {
+    displayName: "Systolic Blood Pressure",
+    isCategorical: false,
+    unit: "(mm Hg)",
+    type: "Number",
+  },
+  totalCholestrol: {
+    displayName: "Total Cholestrol",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  triglyceride: {
+    displayName: "Triglyceride",
+    isCategorical: false,
+    unit: "(mg/dL)",
+    type: "Number",
+  },
+  urineProtein: {
+    displayName: "Urine Protein",
+    isCategorical: true,
+    unit: "",
+    type: "Number",
+  },
+  waistline: {
+    displayName: "Waistline",
+    isCategorical: false,
+    unit: "(cm)",
+    type: "Number",
+  },
+  weight: {
+    displayName: "Weight",
+    isCategorical: false,
+    unit: "(kg)",
+    type: "Number",
+  },
+};
+
+const colors = {
+  1: "#4DA6FF",
+  2: "#4CAF50",
+  3: "#FFEB3B",
+  4: "#FF8A80",
+  5: "#FFB74D",
+  6: "#9C27B0",
+  7: "#64B5F6",
+  8: "#EF5350",
+  9: "#26C6DA",
+  10: "#9575CD",
+};
+
+const variableColors = {
+  age: "#FDD5B1",
+  bloodGlucose: "#E0E0E0",
+  diastolicBloodPressure: "#FFA07A",
+  hdlCholestrol: "#87CEEB",
+  height: "#DB7093",
+  hemoglobin: "#AFEEEE",
+  ldlCholestrol: "#F08080",
+  serumCreatinine: "#C8A2C8",
+  sightLeft: "#98FF98",
+  sightRight: "#FFDAB9",
+  systolicBloodPressure: "#E6E6FA",
+  totalCholestrol: "#FFFFE0",
+  triglyceride: "#98FB98",
+  waistline: "#B0E0E6",
+  weight: "#FFD1DC",
+};
+
+export { metadata, colors, variableColors };
