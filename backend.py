@@ -3,93 +3,75 @@ from flask import Flask, request
 import pandas as pd
 import numpy as np
 from flask_cors import cross_origin, CORS
-from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from sklearn.manifold import MDS
+from sklearn.preprocessing import OneHotEncoder
 
 df = pd.read_csv('./data.csv')
+df_numerical = df.copy(deep=True)
 
-# Drop categorical columns
+# Normalise numerical variables
 for col in metadata.keys():
     if metadata[col]['isCategorical']:
-        df = df.drop(col, axis=1)
+        df_numerical = df_numerical.drop(col, axis=1)
 
-# Apply min-max normalisation
-df_normalized = (df - df.min()) / (df.max() - df.min())
+# Normalise numerical data
+df_numerical = (df_numerical - df_numerical.min()) / (df_numerical.max() - df_numerical.min())
+correlation = df_numerical.corr()
+dissimilarity = 1 - np.abs(correlation)
+
+# MDS calculations for data
+embeddings_data = MDS(n_components=2, metric=True, dissimilarity='euclidean')
+data_mds = embeddings_data.fit_transform(df_numerical)
+
+# MDS calculations for features
+embeddings_features = MDS(n_components=2, metric=True, dissimilarity='precomputed')
+features_mds = embeddings_features.fit_transform(dissimilarity)
 
 # Calculate n = 1..10 clusters
 all_clusters = {}
 inertia_values = {}
-
+encoder = OneHotEncoder()
+encoded_data = encoder.fit_transform(df)
 for cluster_size in range(1, 11):
-    kmeans = KMeans(cluster_size, n_init = 'auto').fit(df_normalized)
+    kmeans = KMeans(cluster_size, n_init = 'auto').fit(encoded_data)
     all_clusters[cluster_size] = kmeans.labels_
     inertia_values[cluster_size] = kmeans.inertia_
-
-pca = PCA()
-df_transformed = pca.fit_transform(df_normalized)
-eigen_values = pca.explained_variance_ratio_
-eigen_vectors = pca.components_
-loadings = pca.components_.T * np.sqrt(pca.explained_variance_)
 
 # API's
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/scree')
-@cross_origin(origins=['*'])
-def scree_plot():
-    return {'eigenValues': eigen_values.tolist(), 'eigenVectors': eigen_vectors.tolist()}
 
 @app.route('/cluster')
 @cross_origin(origins=['*'])
 def cluster_plot():
     return {'mse': inertia_values}
 
-@app.route('/biplot')
+@app.route('/feature_mds')
 @cross_origin(origins=['*'])
-def bi_plot():
-    points = []
-    axis1 = int(request.args.get('axis1')) - 1
-    axis2 = int(request.args.get('axis2')) - 1
+def feature_mds_plot():
+    mds = []
+    for i, col in enumerate(dissimilarity.columns):
+        mds.append({'name': col, 'x': float(features_mds[i][0]), 'y': float(features_mds[i][1])})
+    return {'mds': mds, 'correlation': correlation.to_json()}
+
+@app.route('/data_mds')
+@cross_origin(origins=['*'])
+def data_mds_plot():
     k = int(request.args.get('k'))
-    features = []
-    
-    for i, row in enumerate(df_transformed):
-        points.append({'axis1': float(row[axis1]), 'axis2': float(row[axis2]), 'pointK': int(all_clusters[k][i])+1})
-    
-    for i, feature_name in enumerate(pca.feature_names_in_):
-        features.append({'name': feature_name, 'axis1': float(loadings[i][axis1]) * 5, 'axis2': float(loadings[i][axis2]) * 5})
-    
-    return {'points': points, 'kValue': k, 'features': features}
+    mds = []
+    for i, (x, y) in enumerate(data_mds):
+        mds.append({'cluster': int(all_clusters[k][i])+1, 'x': float(x), 'y': float(y)})
+    return mds
 
-def find_features(di):
-    features = []
-    for i, feature_name in enumerate(pca.feature_names_in_):
-        required_loadings = [val ** 2 for val in loadings[i][:di].tolist()]
-        features.append({'name': feature_name, 'loadings': required_loadings, 'loadingSum': sum(required_loadings)})
-    return sorted(features, key = lambda x: x['loadingSum'], reverse=True)[:4]
-
-@app.route('/pctable')
+@app.route('/pcp_plot')
 @cross_origin(origins=['*'])
-def pc_table():
-    di = int(request.args.get('di'))
-    return find_features(di)
-    
-@app.route('/scattermatrix')
-@cross_origin(origins=['*'])
-def scatter_matrix():
+def pcp_plot():
     k = int(request.args.get('k'))
-    di = int(request.args.get('di'))
-    feature_names = [feature['name'] for feature in find_features(di)]
-    feature_values = {}
-    for feature_name in feature_names:
-        feature_values[feature_name] = df_normalized[feature_name].tolist()
-
-    return {'names': feature_names, 'clusterLabels': all_clusters[k].tolist(), 'values': feature_values}
-
-
-
-
+    df['cluster'] = all_clusters[k] + 1
+    return df.to_json(orient='records')
+    
+    return {}
 
 if __name__ == "__main__":
   app.run(host='localhost', port=8000)

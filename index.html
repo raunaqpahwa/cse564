@@ -14,33 +14,30 @@
   </head>
   <body>
     <div class="root-container">
-      <div class="scree">
-        <div class="chart">
-          <svg id="scree-svg"></svg>
-        </div>
-      </div>
       <div class="cluster">
         <div class="chart">
           <svg id="cluster-svg"></svg>
         </div>
       </div>
-      <div class="biplot">
+      <div class="mds">
         <div class="chart">
-          <svg id="biplot-svg"></svg>
+          <svg id="mds-svg"></svg>
+        </div>
+        <div class="mds-select-box">
+          <label>
+            Variables
+            <input name="mds-select" type="radio" value="variables" checked />
+          </label>
+          <label>
+            Data
+            <input name="mds-select" type="radio" value="data" />
+          </label>
         </div>
       </div>
-      <div class="scatter-matrix">
-        <div class="chart">
-          <div class="scatter-svg">
-            <div class="multiple">Scatter Plot Matrix</div>
-          </div>
-        </div>
+      <div class="pc-plot chart">
+        <!-- <div class="heading multiple">Parallel Coordinate Plot</div> -->
+        <svg id="pcp-svg"></svg>
       </div>
-
-      <div class="heading multiple">
-        Principal Components and Squared Sum Loadings
-      </div>
-      <div class="pc-table chart"></div>
     </div>
     <div class="tooltip"></div>
     <script

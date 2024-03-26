@@ -1,12 +1,18 @@
-import screePlot from "./screePlot.js";
 import clusterPlot from "./clusterPlot.js";
-import biPlot from "./biPlot.js";
-import pcTable from "./pcTable.js";
+import mdsPlot from "./mdsPlot.js";
+import pcpPlot from "./pcpPlot.js";
 
 const initialise = async () => {
-  screePlot();
   clusterPlot();
-  biPlot(null, null, null, null);
+  mdsPlot(null, null);
+  pcpPlot(null, null);
+
+  const radios = document.querySelectorAll('input[name="mds-select"]');
+  radios.forEach((radio) =>
+    radio.addEventListener("change", (e) => {
+      mdsPlot(null, e.target.value);
+    })
+  );
 };
 
 initialise();

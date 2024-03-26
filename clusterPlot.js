@@ -1,5 +1,6 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import biPlot from "./biPlot.js";
+import mdsPlot from "./mdsPlot.js";
+import pcpPlot from "./pcpPlot.js";
 
 const clusterPlot = async () => {
   const clusterData = await axios.get("http://localhost:8000/cluster");
@@ -79,7 +80,8 @@ const clusterPlot = async () => {
     .on("click", function (event, d) {
       d3.selectAll(".cluster-bar").style("fill", "#0275ff");
       d3.select(this).style("fill", "#0d233d");
-      biPlot(null, null, Number(clusterObj[d]), null);
+      mdsPlot(clusterObj[d], null);
+      pcpPlot(clusterObj[d], null);
     });
 
   // line

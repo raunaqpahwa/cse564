@@ -21,10 +21,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-:root {
-  --pc-table-cols: 7;
-}
-
 img,
 picture,
 video,
@@ -51,10 +47,7 @@ h6 {
   overflow-wrap: break-word;
 }
 
-.scree,
-.cluster,
-.biplot,
-.scatter-matrix {
+.cluster {
   display: flex;
   flex-direction: column;
   min-width: 80%;
@@ -65,8 +58,8 @@ h6 {
 .root-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, minmax(80vh, 100%));
-  gap: 16px;
+  grid-template-rows: minmax(80vh, 100%) minmax(100vh, 100%);
+  gap: 48px 16px;
   padding: 8px;
   min-height: 100%;
 }
@@ -89,23 +82,18 @@ svg {
   height: 100%;
 }
 
-.scree-bar:hover,
 .cluster-bar:hover {
   cursor: pointer;
 }
 
-.cluster-circle,
-.scree-circle {
+.cluster-circle {
   fill: #0d233d;
 }
 
-.pc-table {
+.pc-plot {
   padding: 16px;
   grid-column: 1 / span 2;
-  display: grid;
-  grid-template-columns: repeat(var(--pc-table-cols), 1fr);
   justify-items: center;
-  text-align: center;
 }
 
 .tooltip {
@@ -121,11 +109,6 @@ svg {
   opacity: 1;
 }
 
-.scatter-svg {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
 .heading {
   font-size: 1.5rem;
 }
@@ -135,4 +118,12 @@ svg {
   margin: 0 auto;
   text-decoration: underline;
   font-weight: bold;
+}
+
+.mds-select-box {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  margin-right: 16px;
+  justify-content: flex-end;
 }
