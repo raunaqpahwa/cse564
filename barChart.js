@@ -54,6 +54,16 @@ const barChart = async () => {
       tooltip.html("").style("display", "none");
     })
     .on("click", (e, d) => {
+      const boroughBlock = d3
+        .selectAll("g[id*='treemap-']")
+        .filter((treeBlock, i) =>
+          treeBlock.data.name.includes(d.borough) ? true : false
+        );
+
+      const currBorough = boroughBlock._groups[0][0];
+      if (currBorough) {
+        d3.select(`#${currBorough.id}`).dispatch("click");
+      }
       let clickedBorough = d["borough"];
       if (selectedBorough !== null) {
         d3.select(`#barRect-${selectedBorough}`).attr(

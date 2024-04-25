@@ -2,11 +2,19 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { uid } from "./uid.js";
 import { boroughColors, selectedBoroughColors } from "./constants.js";
 
+const allBoroughs = [
+  "StatenIsland",
+  "Manhattan",
+  "Brooklyn",
+  "Queens",
+  "Bronx",
+];
+
 const treeMap = async () => {
   const requestData = await axios.get("http://localhost:8000/tree_map");
 
   const treeMapData = requestData.data;
-  console.log(JSON.stringify(treeMapData, null, 4));
+  // console.log(JSON.stringify(treeMapData, null, 4));
   const svg = d3.select("#tree-svg");
   svg.selectAll("*").remove();
   const width = svg.node().clientWidth;
@@ -55,7 +63,11 @@ const treeMap = async () => {
     node
       .filter((d) => (d === root ? d.parent : d.children))
       .attr("cursor", "pointer")
+      .attr("id", (d) =>
+        allBoroughs.includes(d.data.name) ? `treemap-${d.data.name}` : ""
+      )
       .on("click", (event, d) => {
+        console.log("Inside treemap", d3.select(this), event);
         return d === root ? zoomout(root) : zoomin(d);
       });
 
