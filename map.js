@@ -41,7 +41,9 @@ const renderMap = () => {
     .attr('d', path)
     .attr('fill', d => {
       const boro_name = d.properties.boro_name
-      return boroughColors[boro_name]
+      return selectedBorough === null || selectedBorough === boro_name
+        ? boroughColors[boro_name]
+        : '#a6a6a6'
     })
     .attr('stroke', 'black')
     .attr('stroke-width', 0.1)
@@ -69,7 +71,7 @@ const renderMap = () => {
           const boro_name = d.properties.boro_name
           return boro_name === clickedBorough
             ? selectedBoroughColors[boro_name]
-            : boroughColors[boro_name]
+            : '#a6a6a6'
         })
         selectedBorough = clickedBorough
         const bounds = path.bounds(d)
