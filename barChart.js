@@ -1,4 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import plotBoroughBarChart from "./boroughBarChart.js";
 import { boroughColors, selectedBoroughColors, metadata } from "./constants.js";
 
 let selectedBorough = null;
@@ -12,6 +13,7 @@ const barChart = async () => {
   const svg = d3.select("#bar-svg");
   svg.selectAll("*").remove();
   const tooltip = d3.select(".tooltip");
+  tooltip.html("").style("display", "none");
   const width = svg.node().clientWidth;
   const height = svg.node().clientHeight;
   const marginRight = 50,
@@ -46,7 +48,7 @@ const barChart = async () => {
     .on("mouseover", (e, d) => {
       tooltip
         .style("display", "flex")
-        .html(`Size: ${d["size"]}`)
+        .html(`Units: ${d["size"]}`)
         .style("left", e.pageX + 15 + "px")
         .style("top", e.pageY - 20 + "px");
     })
@@ -77,6 +79,7 @@ const barChart = async () => {
           selectedBoroughColors[clickedBorough]
         );
         selectedBorough = clickedBorough;
+        plotBoroughBarChart(selectedBorough);
       } else {
         selectedBorough = null;
       }
@@ -132,7 +135,7 @@ const barChart = async () => {
         .attr("x", -marginLeft + 10)
         .attr("y", marginTop - 5)
         .style("font-size", "14px")
-        .attr("transform", "translate(0, 4)")
+        .attr("transform", "translate(0, -4)")
         .attr("fill", "currentColor")
         .attr("text-anchor", "start")
         .text(`Boroughs`)

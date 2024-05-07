@@ -10,10 +10,15 @@ const allBoroughs = [
   "Bronx",
 ];
 
-const treeMap = async () => {
-  const requestData = await axios.get("http://localhost:8000/tree_map");
+let globalTreeMapData = null;
 
-  const treeMapData = requestData.data;
+const treeMap = async () => {
+  if (globalTreeMapData === null) {
+    const requestData = await axios.get("http://localhost:8000/tree_map");
+    const treeMapData = requestData.data;
+    globalTreeMapData = treeMapData;
+  }
+
   // console.log(JSON.stringify(treeMapData, null, 4));
   const svg = d3.select("#tree-svg");
   svg.selectAll("*").remove();
@@ -33,7 +38,7 @@ const treeMap = async () => {
   }
 
   const hierarchy = d3
-    .hierarchy(treeMapData)
+    .hierarchy(globalTreeMapData)
     .sum((d) => d.value)
     .sort((a, b) => a.value - b.value);
   const root = d3.treemap().tile(tile)(hierarchy);
@@ -67,7 +72,6 @@ const treeMap = async () => {
         allBoroughs.includes(d.data.name) ? `treemap-${d.data.name}` : ""
       )
       .on("click", (event, d) => {
-        console.log("Inside treemap", d3.select(this), event);
         return d === root ? zoomout(root) : zoomin(d);
       });
 

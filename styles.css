@@ -10,7 +10,6 @@
   padding: 0;
 }
 
-
 html,
 body {
   height: 100%;
@@ -108,26 +107,25 @@ svg {
   flex: 1.8;
 }
 
+.map {
+  flex: 1.8;
+}
+
+.map .chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.pcp {
+  flex: 1;
+}
+
 .toggle-switch {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  /* margin: 16px 0; */
-
-}
-
-.map {
-  flex: 1.8;
-}
-
-#map-svg {
-  margin: 0 auto;
-}
-
-svg#map-svg {
-  width: auto;
-  height: auto;
+  padding: 0 16px;
 }
 
 #reset-zoom {
@@ -152,4 +150,9 @@ svg#map-svg {
 
 #tree-svg {
   padding: 16px;
+}
+
+#map-svg {
+  padding: 16px;
+  padding-bottom: 4px;
 }

@@ -6,16 +6,7 @@ from flask_cors import cross_origin, CORS
 def create_treemap_data():
    result = {'name': 'Boroughs', 'children': []}
    boroughs = {'Manhattan': {}, 'Bronx': {}, 'Brooklyn': {}, 'Queens': {}, 'StatenIsland': {}}
-   
-   # Housing data
-   # for borough in boroughs.keys():
-   #    filtered = housing[housing['Borough'] == borough]
-   #    boroughs[borough]['name'] = borough
-   #    boroughs[borough]['children'] = [{'name': 'Total combined units', 'children': []}]
-   #    current_props = boroughs[borough]['children'][-1]['children']
-   #    for val in ['Extremely Low Income Units', 'Very Low Income Units', 'Low Income Units', 'Moderate Income Units', 'Middle Income Units', 'Other Income Units', 'Studio Units', '1-BR Units', '2-BR Units', '3-BR Units', '4-BR Units', '5-BR Units', '6-BR+ Units', 'Counted Rental Units', 'Counted Homeownership Units']:
-   #       current_props.append({'name': val, 'value': int(filtered[val].sum())})
-   
+
    # Computers data
    for borough in boroughs.keys():
       filtered = computers[computers['Borough'] == borough]
@@ -77,6 +68,23 @@ def bar_chart():
 @cross_origin(origins=['*'])
 def tree_map():
    return treemap_data
+
+@app.route('/borough_bar_chart')
+@cross_origin(origins=['*'])
+def borough_bar_chart():
+   borough = request.args.get('borough')
+   result = []
+   filtered_housing = housing[housing['Borough'] == borough]
+   for key in ['Low Income Units', 'Moderate Income Units', 'Middle Income Units',
+       'Other Income Units', 'Studio Units', '1-BR Units', '2-BR Units',
+       '3-BR Units', '4-BR Units', 'Counted Rental Units', 'Counted Homeownership Units']:
+      result.append({'name': key.replace('Income', 'Inc.')
+                     .replace('Units', '').replace('Counted', '')
+                     .replace('Moderate', 'Mod.')
+                     .replace('Rental', 'Rent')
+                     .strip(), 
+                     'value': len(filtered_housing[filtered_housing[key] > 0])})
+   return result
 
 
 
