@@ -25,7 +25,7 @@ const plotBoroughBarChart = async (borough) => {
     marginBottom = 60,
     marginTop = 50,
     marginLeft = 80;
-
+  document.querySelector("#bar-reset").style.display = "initial";
   const x = d3
     .scaleBand()
     .domain(boroughBarChartData.map((d) => d["name"]))
@@ -120,6 +120,8 @@ const plotBoroughBarChart = async (borough) => {
         .attr("text-anchor", "start")
         .text(`Number of units`)
     );
+
+  d3.select("#bar-reset").on("click", () => {});
 };
 
 export default plotBoroughBarChart;

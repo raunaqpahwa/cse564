@@ -23,10 +23,16 @@ const mapData = {
 
 const tooltip = d3.select(".tooltip");
 
-const renderMap = () => {
+const renderMap = (borough) => {
   const svg = d3.select("#map-svg");
   const width = svg.node().clientWidth;
-  const height = svg.node().clientHeight - 70;
+  const height = svg.node().clientHeight;
+  if (borough !== undefined) {
+    if (borough === "StatenIsland") {
+      borough = "Staten Island";
+    }
+    selectedBorough = borough;
+  }
 
   const projection = d3.geoMercator().fitSize([width, height], mapData);
   const path = d3.geoPath().projection(projection);
@@ -306,7 +312,7 @@ const renderMap = () => {
   });
 
   // Toggle housing visibility
-  d3.select("#map-type-housing").on("click", (e) => {
+  d3.select("#map-type-housing").on("click", (e, d) => {
     const housing = svg.selectAll(".housing");
     const isVisible = e.target.checked;
     console.log("Housing visible?", isVisible);
@@ -314,8 +320,4 @@ const renderMap = () => {
   });
 };
 
-const plot = async () => {
-  renderMap();
-};
-
-export default plot;
+export default renderMap;

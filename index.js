@@ -1,11 +1,15 @@
-import barChart from './barChart.js'
-import map from './map.js'
-import treeMap from './treeMap.js'
+import barChart from "./barChart.js";
+import renderMap from "./map.js";
+import treeMap from "./treeMap.js";
 
 const initialise = () => {
-  barChart()
-  treeMap()
-  map()
-}
+  barChart();
+  treeMap();
+  renderMap();
 
-initialise()
+  document.querySelector("#bar-reset").addEventListener("click", () => {
+    barChart();
+  });
+};
+
+initialise();

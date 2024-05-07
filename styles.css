@@ -121,38 +121,26 @@ svg {
 }
 
 .toggle-switch {
+  position: absolute;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
-  padding: 0 16px;
-}
-
-#reset-zoom {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  padding: 8px;
+  padding: 16px 0px 0px 16px;
+  background-color: white;
+  box-shadow: 0px 0px 16px 16px #fff;
   border-radius: 8px;
-  background-color: #fff;
-  color: #000;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 250ms, color 250ms, box-shadow 250ms;
 }
 
-#reset-zoom:hover {
-  background-color: #000;
-  color: #fff;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-#tree-svg {
-  padding: 16px;
-}
-
+#tree-svg,
 #map-svg {
   padding: 16px;
-  padding-bottom: 4px;
+}
+
+#bar-reset {
+  position: absolute;
+  margin: 4px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  display: none;
 }

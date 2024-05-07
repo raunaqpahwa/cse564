@@ -20,7 +20,7 @@ const barChart = async () => {
     marginBottom = 60,
     marginTop = 50,
     marginLeft = 80;
-
+  document.querySelector("#bar-reset").style.display = "none";
   const y = d3
     .scaleBand()
     .domain(barData.map((d) => d["borough"]))
