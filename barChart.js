@@ -83,7 +83,7 @@ const barChart = async () => {
     .attr('y', marginTop - 20)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .style('text-decoration', 'underline')
+    .style('font-weight', 'bold')
     .text(`Distribution of Affordable Housing in Boroughs`)
 
   // x-axis

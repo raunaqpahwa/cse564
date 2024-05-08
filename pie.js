@@ -5,14 +5,13 @@ import plotBoroughBarChart from './boroughBarChart.js'
 import treeMap from './treeMap.js'
 import barChart from './barChart.js'
 
-boroughColors['Staten Island'] = '#FFEB3B'
-
 let pieData = await d3.csv('./crimes.csv')
 
 let selectedBorough = null
 
 const renderPie = () => {
   const svg = d3.select('#pie-svg')
+  svg.selectAll('*').remove()
   const width = svg.node().clientWidth
   const height = svg.node().clientHeight
 
