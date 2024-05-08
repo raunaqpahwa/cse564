@@ -173,8 +173,7 @@ const renderMap = (borough) => {
     .attr("fill", "none")
     .attr("stroke", "black")
     .attr("stroke-width", 0.4)
-    .style("opacity", 0.5)
-    .style("stroke-dasharray", "3, 3");
+    .style("opacity", 0.5);
 
   // Subway stations
   svg
