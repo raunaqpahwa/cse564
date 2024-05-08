@@ -137,7 +137,7 @@ const renderMap = (borough) => {
             zoom.transform,
             d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
           );
-        console.log(event.isTrusted);
+
         if (event.isTrusted) {
           // Bar chart
           let modBorough =
@@ -146,14 +146,14 @@ const renderMap = (borough) => {
               : selectedBorough;
 
           plotBoroughBarChart(modBorough);
-
+          treeMap();
           // Tree map
           const boroughBlock = d3
             .selectAll("g[id*='treemap-']")
             .filter((treeBlock, i) =>
               treeBlock.data.name.includes(modBorough) ? true : false
             );
-
+          console.log(boroughBlock);
           const currBorough = boroughBlock._groups[0][0];
           if (currBorough) {
             d3.select(`#${currBorough.id}`).dispatch("click");
