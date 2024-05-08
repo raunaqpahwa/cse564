@@ -2,6 +2,7 @@ from flask import Flask, request
 import pandas as pd
 import numpy as np
 from flask_cors import cross_origin, CORS
+from geopy.distance import geodesic
 
 def create_treemap_data():
    result = {'name': 'Boroughs', 'children': []}
@@ -42,13 +43,31 @@ def create_treemap_data():
    
    return result
 
+avg_distances = {'Manhattan': {'Schools': 3.63, 'Computers': 4.12, 'Hospitals': 4.137, 'Colleges': 3.866},
+                 'Brooklyn': {'Schools': 3.91, 'Computers': 4.05, 'Hospitals': 3.43, 'Colleges': 3.35},
+                 'Queens': {'Schools': 5.498, 'Computers': 5.61, 'Hospitals': 4.858, 'Colleges': 4.9914},
+                 'StatenIsland': {'Schools': 3.13, 'Computers': 3.486, 'Hospitals': 2.937, 'Colleges': 2.7},
+                 'Bronx': {'Schools': 2.508, 'Computers': 2.789, 'Hospitals': 2.665, 'Colleges': 3.149},
+                 'All': {'Schools': 8.42, 'Computers': 8.473, 'Hospitals': 7.813, 'Colleges': 7.455}}
+
+# Precompute all the above distances
+# def create_distance_data():
+#    total_miles = 0
+#    total_points = 0
+#    for index, housing_row in housing.iterrows():
+#       for index, schools_row in colleges.iterrows():
+#          total_miles += geodesic((housing_row['Latitude'], housing_row['Longitude']), (schools_row['Latitude'], schools_row['Longitude'])).miles
+#          total_points += 1
+#    print(f'Avg dist: {total_miles/total_points}, Total Pts: {total_points}, Tot miles: {total_miles}')
+
+
 housing = pd.read_csv('./housing_cleaned.csv')
 schools = pd.read_csv('./schools_cleaned.csv')
 computers = pd.read_csv('./computers_cleaned.csv')
 hospitals = pd.read_csv('./hospitals_cleaned.csv')
 colleges = pd.read_csv('./colleges_cleaned.csv')
-
 treemap_data = create_treemap_data()
+# create_distance_data()
 
 # API's
 app = Flask(__name__)

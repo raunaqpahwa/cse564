@@ -121,12 +121,9 @@ svg {
 }
 
 .root-container2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* grid-template-rows: 100%; */
-  gap: 0 8px;
-  /* padding: 8px; */
-  min-height: 30%;
+  display: flex;
+  gap: 8px;
+  flex: 1;
 }
 
 .toggle-switch {
