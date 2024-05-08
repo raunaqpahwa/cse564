@@ -6,10 +6,6 @@ const initialise = () => {
   barChart();
   treeMap();
   renderMap();
-
-  document.querySelector("#bar-reset").addEventListener("click", () => {
-    barChart();
-  });
 };
 
 initialise();

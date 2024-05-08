@@ -7,8 +7,9 @@ let selectedBorough = null;
 const barChart = async () => {
   const requestData = await axios.get("http://localhost:8000/bar_chart");
   const barData = requestData.data;
-
   const maxValue = barData.reduce((acc, val) => Math.max(acc, val["size"]), 0);
+
+  selectedBorough = null;
 
   const svg = d3.select("#bar-svg");
   svg.selectAll("*").remove();
@@ -63,27 +64,14 @@ const barChart = async () => {
         );
 
       const currBorough = boroughBlock._groups[0][0];
+      console.log(currBorough);
       if (currBorough) {
         d3.select(`#${currBorough.id}`).dispatch("click");
       }
       let clickedBorough = d["borough"];
-      if (selectedBorough !== null) {
-        d3.select(`#barRect-${selectedBorough}`).attr(
-          "fill",
-          boroughColors[selectedBorough]
-        );
-      }
-      if (selectedBorough !== clickedBorough) {
-        d3.select(`#barRect-${clickedBorough}`).attr(
-          "fill",
-          selectedBoroughColors[clickedBorough]
-        );
-        selectedBorough = clickedBorough;
-        plotBoroughBarChart(selectedBorough);
-      } else {
-        selectedBorough = null;
-      }
-      console.log(selectedBorough);
+      d3.select(`#map-${clickedBorough}`).dispatch("click");
+      selectedBorough = clickedBorough;
+      plotBoroughBarChart(selectedBorough);
     });
 
   // title

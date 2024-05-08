@@ -1,5 +1,10 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { metadata } from "./constants.js";
+import renderMap from "./map.js";
+import treeMap from "./treeMap.js";
+import barChart from "./barChart.js";
+
+let selectedBorough = null;
 
 const plotBoroughBarChart = async (borough) => {
   const requestData = await axios.get(
@@ -25,6 +30,8 @@ const plotBoroughBarChart = async (borough) => {
     marginBottom = 60,
     marginTop = 50,
     marginLeft = 80;
+  selectedBorough = borough;
+
   document.querySelector("#bar-reset").style.display = "initial";
   const x = d3
     .scaleBand()
@@ -120,8 +127,12 @@ const plotBoroughBarChart = async (borough) => {
         .attr("text-anchor", "start")
         .text(`Number of units`)
     );
-
-  d3.select("#bar-reset").on("click", () => {});
 };
+
+document.querySelector("#bar-reset").addEventListener("click", async () => {
+  barChart();
+  treeMap();
+  d3.select(`#map-${selectedBorough}`).dispatch("click");
+});
 
 export default plotBoroughBarChart;

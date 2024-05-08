@@ -1,6 +1,8 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { uid } from "./uid.js";
 import { boroughColors, selectedBoroughColors } from "./constants.js";
+import barChart from "./barChart.js";
+import plotBoroughBarChart from "./boroughBarChart.js";
 
 const allBoroughs = [
   "StatenIsland",
@@ -19,7 +21,6 @@ const treeMap = async () => {
     globalTreeMapData = treeMapData;
   }
 
-  // console.log(JSON.stringify(treeMapData, null, 4));
   const svg = d3.select("#tree-svg");
   svg.selectAll("*").remove();
   const width = svg.node().clientWidth;
@@ -41,6 +42,7 @@ const treeMap = async () => {
     .hierarchy(globalTreeMapData)
     .sum((d) => d.value)
     .sort((a, b) => a.value - b.value);
+
   const root = d3.treemap().tile(tile)(hierarchy);
 
   // Create the scales.
@@ -72,7 +74,16 @@ const treeMap = async () => {
         allBoroughs.includes(d.data.name) ? `treemap-${d.data.name}` : ""
       )
       .on("click", (event, d) => {
-        return d === root ? zoomout(root) : zoomin(d);
+        let returnVal = d === root ? zoomout(root) : zoomin(d);
+        if (d.depth === 1 && event.isTrusted) {
+          if (d === root) {
+            barChart();
+          } else {
+            plotBoroughBarChart(d.data.name);
+          }
+          d3.select(`#map-${d.data.name}`).dispatch("click");
+        }
+        return returnVal;
       });
 
     node.append("title").text((d) => `${name(d)}\n${format(d.value)}`);
