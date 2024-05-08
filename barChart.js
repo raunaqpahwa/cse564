@@ -41,7 +41,7 @@ const barChart = async () => {
     .join('rect')
     .attr('id', d => `barRect-${d['borough']}`)
     .attr('x', marginLeft)
-    .attr('width', d => x(d['size']) - marginLeft)
+    .attr('width', 0) // Set initial width to 0
     .attr('y', d => y(d['borough']))
     .attr('height', y.bandwidth())
     .attr('fill', d => boroughColors[d['borough']])
@@ -74,6 +74,9 @@ const barChart = async () => {
       selectedBorough = clickedBorough
       plotBoroughBarChart(selectedBorough)
     })
+    .transition() // Add transition
+    .duration(1000) // Set duration for the animation
+    .attr('width', d => x(d['size']) - marginLeft) // Animate the width
 
   // title
   svg

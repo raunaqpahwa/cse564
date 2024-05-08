@@ -57,15 +57,14 @@ const plotBoroughBarChart = async borough => {
 
   svg
     .append('g')
-
     .selectAll()
     .data(boroughBarChartData)
     .join('rect')
     .attr('fill', d => selectedBoroughColors[borough])
     .attr('x', d => x(d['name']))
     .attr('width', x.bandwidth())
-    .attr('y', d => y(d['value']))
-    .attr('height', d => height - marginBottom - y(d['value']))
+    .attr('y', height - marginBottom)
+    .attr('height', 0)
     .on('mouseover', (e, d) => {
       tooltip
         .style('display', 'flex')
@@ -76,6 +75,10 @@ const plotBoroughBarChart = async borough => {
     .on('mouseout', () => {
       tooltip.html('').style('display', 'none')
     })
+    .transition() // Add transition
+    .duration(1000) // Set duration for the animation
+    .attr('y', d => y(d['value']))
+    .attr('height', d => height - marginBottom - y(d['value']))
 
   // x-axis
   svg
