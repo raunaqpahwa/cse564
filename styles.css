@@ -120,6 +120,15 @@ svg {
   flex: 1;
 }
 
+.root-container2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: 100%; */
+  gap: 0 8px;
+  /* padding: 8px; */
+  min-height: 30%;
+}
+
 .toggle-switch {
   position: absolute;
   display: flex;
