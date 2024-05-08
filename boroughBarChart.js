@@ -1,5 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import { metadata } from "./constants.js";
+import { boroughColors, metadata } from "./constants.js";
 import renderMap from "./map.js";
 import treeMap from "./treeMap.js";
 import barChart from "./barChart.js";
@@ -57,10 +57,11 @@ const plotBoroughBarChart = async (borough) => {
 
   svg
     .append("g")
-    .attr("fill", "#0275ff")
+
     .selectAll()
     .data(boroughBarChartData)
     .join("rect")
+    .attr("fill", (d) => boroughColors[borough])
     .attr("x", (d) => x(d["name"]))
     .attr("width", x.bandwidth())
     .attr("y", (d) => y(d["value"]))

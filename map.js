@@ -4,8 +4,6 @@ import barChart from "./barChart.js";
 import treeMap from "./treeMap.js";
 import plotBoroughBarChart from "./boroughBarChart.js";
 
-boroughColors["Staten Island"] = "#FFEB3B";
-selectedBoroughColors["Staten Island"] = "#DBC300";
 let boundaryData = await d3.json("./map/boroughs.geojson");
 let subwayData = await d3.json("./map/subway.geojson");
 let subwayStationsData = await d3.json("./map/subway_stations.geojson");
@@ -50,11 +48,12 @@ const renderMap = (borough) => {
     .attr("fill", (d) => {
       const boro_name = d.properties.boro_name;
       return selectedBorough === null || selectedBorough === boro_name
-        ? boroughColors[boro_name]
+        ? selectedBoroughColors[boro_name]
         : "#a6a6a6";
     })
     .attr("stroke", "black")
     .attr("stroke-width", 0.1)
+    .attr("cursor", "pointer")
     .on("mouseover", (e, d) => {
       tooltip
         .style("display", "flex")
@@ -76,7 +75,7 @@ const renderMap = (borough) => {
 
         svg.selectAll("path").attr("fill", (d) => {
           const boro_name = d.properties.boro_name;
-          return boroughColors[boro_name];
+          return selectedBoroughColors[boro_name];
         });
 
         // Add the path back to the map
@@ -101,7 +100,7 @@ const renderMap = (borough) => {
         svg.selectAll("path").attr("fill", (d) => {
           const boro_name = d.properties.boro_name;
           return boro_name === clickedBorough
-            ? selectedBoroughColors[boro_name]
+            ? boroughColors[boro_name]
             : "#a6a6a6";
         });
 
@@ -174,21 +173,21 @@ const renderMap = (borough) => {
     .attr("fill", "none")
     .attr("stroke", "black")
     .attr("stroke-width", 0.4)
-    .style("opacity", 0.5);
+    .style("opacity", 0.5)
+    .style("stroke-dasharray", "3, 3");
 
   // Subway stations
   svg
     .selectAll(".subway-station")
     .data(subwayStationsData.features)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "subway-station")
-    .attr("cx", (d) => projection(d.geometry.coordinates)[0])
-    .attr("cy", (d) => projection(d.geometry.coordinates)[1])
-    .attr("r", 0.6)
-    .attr("fill", "black")
-    .attr("stroke", "white")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "train.svg")
+    .attr("width", "2")
+    .attr("height", "2")
+    .attr("x", (d) => projection(d.geometry.coordinates)[0])
+    .attr("y", (d) => projection(d.geometry.coordinates)[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -205,14 +204,13 @@ const renderMap = (borough) => {
     .selectAll(".college")
     .data(collegeData)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "college")
-    .attr("cx", (d) => projection([d.Longitude, d.Latitude])[0])
-    .attr("cy", (d) => projection([d.Longitude, d.Latitude])[1])
-    .attr("r", 0.6)
-    .attr("fill", "green")
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "college.svg")
+    .attr("width", "3")
+    .attr("height", "3")
+    .attr("x", (d) => projection([d.Longitude, d.Latitude])[0])
+    .attr("y", (d) => projection([d.Longitude, d.Latitude])[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -229,14 +227,13 @@ const renderMap = (borough) => {
     .selectAll(".computer")
     .data(computersData)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "computer")
-    .attr("cx", (d) => projection([d.Longitude, d.Latitude])[0])
-    .attr("cy", (d) => projection([d.Longitude, d.Latitude])[1])
-    .attr("r", 0.6)
-    .attr("fill", "blue")
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "computer.svg")
+    .attr("width", "3")
+    .attr("height", "3")
+    .attr("x", (d) => projection([d.Longitude, d.Latitude])[0])
+    .attr("y", (d) => projection([d.Longitude, d.Latitude])[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -253,14 +250,13 @@ const renderMap = (borough) => {
     .selectAll(".school")
     .data(schoolsData)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "school")
-    .attr("cx", (d) => projection([d.Longitude, d.Latitude])[0])
-    .attr("cy", (d) => projection([d.Longitude, d.Latitude])[1])
-    .attr("r", 0.6)
-    .attr("fill", "purple")
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "school.svg")
+    .attr("width", "3")
+    .attr("height", "3")
+    .attr("x", (d) => projection([d.Longitude, d.Latitude])[0])
+    .attr("y", (d) => projection([d.Longitude, d.Latitude])[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -277,14 +273,13 @@ const renderMap = (borough) => {
     .selectAll(".hospital")
     .data(hospitalsData)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "hospital")
-    .attr("cx", (d) => projection([d.Longitude, d.Latitude])[0])
-    .attr("cy", (d) => projection([d.Longitude, d.Latitude])[1])
-    .attr("r", 0.6)
-    .attr("fill", "red")
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "hospital.svg")
+    .attr("width", "3")
+    .attr("height", "3")
+    .attr("x", (d) => projection([d.Longitude, d.Latitude])[0])
+    .attr("y", (d) => projection([d.Longitude, d.Latitude])[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -301,14 +296,13 @@ const renderMap = (borough) => {
     .selectAll(".housing")
     .data(housingData)
     .enter()
-    .append("circle")
+    .append("image")
     .attr("class", "housing")
-    .attr("cx", (d) => projection([d.Longitude, d.Latitude])[0])
-    .attr("cy", (d) => projection([d.Longitude, d.Latitude])[1])
-    .attr("r", 0.6)
-    .attr("fill", "white")
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.1)
+    .attr("xlink:href", "house.svg")
+    .attr("width", "2")
+    .attr("height", "2")
+    .attr("x", (d) => projection([d.Longitude, d.Latitude])[0])
+    .attr("y", (d) => projection([d.Longitude, d.Latitude])[1])
     .on("mouseover", function (event, d) {
       tooltip
         .style("display", "flex")
@@ -328,15 +322,21 @@ const renderMap = (borough) => {
   function zoomed(event) {
     svg.selectAll("path").attr("transform", event.transform);
     svg.selectAll("circle").attr("transform", event.transform);
+    svg.selectAll("image").attr("transform", event.transform);
   }
 
   // Toggle subway visibility
   d3.select("#map-type-subway").on("click", (e) => {
-    const subway = svg.selectAll(".subway");
     const subwayStations = svg.selectAll(".subway-station");
     const isVisible = e.target.checked;
-    subway.style("opacity", isVisible ? 0.8 : 0);
     subwayStations.style("opacity", isVisible ? 0.8 : 0);
+  });
+
+  // Toggle subway line visibility
+  d3.select("#map-type-subway-lines").on("click", (e) => {
+    const subway = svg.selectAll(".subway");
+    const isVisible = e.target.checked;
+    subway.style("opacity", isVisible ? 0.8 : 0);
   });
 
   // Toggle colleges visibility

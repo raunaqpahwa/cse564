@@ -20,19 +20,21 @@ const colors = {
 };
 
 const boroughColors = {
-  Manhattan: "#4DA6FF",
-  Brooklyn: "#4CAF50",
-  Queens: "#FF8A80",
-  StatenIsland: "#FFEB3B",
-  Bronx: "#9C27B0",
+  Manhattan: "#aed9e0",
+  Brooklyn: "#c7e5c2",
+  Queens: "#f5b7b1",
+  StatenIsland: "#f9d8b8",
+  "Staten Island": "#f9d8b8",
+  Bronx: "#d8c9e6",
 };
 
 const selectedBoroughColors = {
-  Manhattan: "#0066cc",
-  Brooklyn: "#388E3C",
-  Queens: "#ff4333",
-  StatenIsland: "#DBC300",
-  Bronx: "#6A1B9A",
+  Manhattan: "#7ebdc7",
+  Brooklyn: "#a4d6a5",
+  Queens: "#f29991",
+  StatenIsland: "#f5ba89",
+  "Staten Island": "#f5ba89",
+  Bronx: "#b6a0d3",
 };
 
 const greenSwatch = [

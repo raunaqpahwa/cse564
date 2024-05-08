@@ -137,13 +137,14 @@ const treeMap = async () => {
         i === nodes.length - 1 ? 0.9 : null
       )
       .attr("font-weight", (d, i, nodes) =>
-        i === nodes.length - 1 ? "normal" : null
+        i === nodes.length - 1 ? "bold" : "normal"
       )
       .attr("fill", (d, i, nodes) => {
+        console.log(d);
         if (d.startsWith("Boroughs")) {
           lastSet = true;
         }
-        return lastSet ? "#000000" : "#FFF";
+        return lastSet ? "#000000" : "#000";
       })
       .text((d) => d);
     lastSet = false;
