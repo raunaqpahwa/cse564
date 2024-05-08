@@ -67,19 +67,49 @@ const renderMap = borough => {
       if (selectedBorough === clickedBorough) {
         selectedBorough = null
 
+        svg.selectAll('path.subway').remove()
+
         svg.selectAll('path').attr('fill', d => {
           const boro_name = d.properties.boro_name
           return boroughColors[boro_name]
         })
 
+        // Add the path back to the map
+        svg
+          .selectAll('.subway')
+          .data(subwayData.features)
+          .enter()
+          .append('path')
+          .attr('class', 'subway')
+          .attr('d', path)
+          .attr('fill', 'none')
+          .attr('stroke', 'black')
+          .attr('stroke-width', 0.4)
+          .style('opacity', 0.5)
+
         svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity)
       } else {
+        svg.selectAll('path.subway').remove()
+
         svg.selectAll('path').attr('fill', d => {
           const boro_name = d.properties.boro_name
           return boro_name === clickedBorough
             ? selectedBoroughColors[boro_name]
             : '#a6a6a6'
         })
+
+        // Add the path back to the map
+        svg
+          .selectAll('.subway')
+          .data(subwayData.features)
+          .enter()
+          .append('path')
+          .attr('class', 'subway')
+          .attr('d', path)
+          .attr('fill', 'none')
+          .attr('stroke', 'black')
+          .attr('stroke-width', 0.4)
+          .style('opacity', 0.5)
 
         selectedBorough = clickedBorough
 
