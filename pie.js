@@ -14,6 +14,7 @@ const renderPie = () => {
   svg.selectAll('*').remove()
   const width = svg.node().clientWidth
   const height = svg.node().clientHeight
+  selectedBorough = null
 
   const tooltip = d3.select('.tooltip')
   tooltip.html('').style('display', 'none')
@@ -58,6 +59,7 @@ const renderPie = () => {
         : '#a6a6a6'
     })
     .on('click', (event, d) => {
+      console.log(event)
       let clickedBorough = d.data.Borough
       // console.log(clickedBorough)
 
@@ -90,6 +92,7 @@ const renderPie = () => {
           })
 
         selectedBorough = clickedBorough
+
         if (event.isTrusted) {
           let modBorough =
             selectedBorough === 'Staten Island'

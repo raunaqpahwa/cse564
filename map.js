@@ -3,6 +3,7 @@ import { boroughColors, selectedBoroughColors, metadata } from './constants.js'
 import barChart from './barChart.js'
 import treeMap from './treeMap.js'
 import plotBoroughBarChart from './boroughBarChart.js'
+import renderPie from './pie.js'
 
 let boundaryData = await d3.json('./map/boroughs.geojson')
 let subwayData = await d3.json('./map/subway.geojson')
@@ -94,6 +95,7 @@ const renderMap = borough => {
         svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity)
         barChart()
         treeMap()
+        renderPie()
       } else {
         svg.selectAll('path.subway').remove()
 
@@ -146,6 +148,8 @@ const renderMap = borough => {
 
           plotBoroughBarChart(modBorough)
           treeMap()
+          d3.select(`#pie-${modBorough}`).dispatch('click')
+
           // Tree map
           const boroughBlock = d3
             .selectAll("g[id*='treemap-']")

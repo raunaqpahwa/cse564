@@ -3,6 +3,7 @@ import { uid } from './uid.js'
 import { boroughColors, selectedBoroughColors } from './constants.js'
 import barChart from './barChart.js'
 import plotBoroughBarChart from './boroughBarChart.js'
+import renderPie from './pie.js'
 
 const allBoroughs = ['StatenIsland', 'Manhattan', 'Brooklyn', 'Queens', 'Bronx']
 
@@ -69,8 +70,10 @@ const treeMap = async () => {
         if (d.depth === 1 && event.isTrusted) {
           if (d === root) {
             barChart()
+            renderPie()
           } else {
             plotBoroughBarChart(d.data.name)
+            d3.select(`#pie-${d.data.name}`).dispatch('click')
           }
           d3.select(`#map-${d.data.name}`).dispatch('click')
         }
