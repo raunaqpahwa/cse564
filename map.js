@@ -61,7 +61,7 @@ const renderMap = borough => {
       tooltip
         .style('display', 'flex')
         .html(
-          `${d.properties.boro_name} <br> Population - ${
+          `<b>${d.properties.boro_name}</b> Population - ${
             d.properties.boro_name === 'Staten Island'
               ? crimesData.find(crime => crime.Borough === 'StatenIsland')
                   .Population
@@ -241,7 +241,7 @@ const renderMap = borough => {
     .on('mouseover', function (event, d) {
       tooltip
         .style('display', 'flex')
-        .html(`${d['NAME']}`)
+        .html(`${d['NAME']} <br> ${d['URL']}`)
         .style('left', event.pageX + 15 + 'px')
         .style('top', event.pageY - 20 + 'px')
     })
@@ -264,7 +264,9 @@ const renderMap = borough => {
     .on('mouseover', function (event, d) {
       tooltip
         .style('display', 'flex')
-        .html(`${d['Oversight Agency']} - ${d['Full Location Address']}`)
+        .html(
+          `${d['Oversight Agency']} - ${d['Full Location Address']} <br> Wheelchair Accessible: ${d['Wheelchair Accessible']} <br> Assistive Technology: ${d['Assistive Technology']}`
+        )
         .style('left', event.pageX + 15 + 'px')
         .style('top', event.pageY - 20 + 'px')
     })
@@ -287,7 +289,9 @@ const renderMap = borough => {
     .on('mouseover', function (event, d) {
       tooltip
         .style('display', 'flex')
-        .html(d['School Name'])
+        .html(
+          `School - ${d['School Name']} <br> Address - ${d['Building Address']}`
+        )
         .style('left', event.pageX + 15 + 'px')
         .style('top', event.pageY - 20 + 'px')
     })
@@ -310,7 +314,9 @@ const renderMap = borough => {
     .on('mouseover', function (event, d) {
       tooltip
         .style('display', 'flex')
-        .html(d['Facility Name'])
+        .html(
+          `${d['Facility Type']} - ${d['Facility Name']} <br> Phone: ${d['Phone']}`
+        )
         .style('left', event.pageX + 15 + 'px')
         .style('top', event.pageY - 20 + 'px')
     })
@@ -333,7 +339,9 @@ const renderMap = borough => {
     .on('mouseover', function (event, d) {
       tooltip
         .style('display', 'flex')
-        .html(`${d['Number']} - ${d['Street']}`)
+        .html(
+          `${d['Number']} - ${d['Street']} <br> Ex. low: ${d['Extremely Low Income Units']} <br> V. low: ${d['Very Low Income Units']} <br> Low: ${d['Low Income Units']} <br> Mod: ${d['Moderate Income Units']}`
+        )
         .style('left', event.pageX + 15 + 'px')
         .style('top', event.pageY - 20 + 'px')
     })
