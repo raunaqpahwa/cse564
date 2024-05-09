@@ -128,6 +128,25 @@ const renderPie = () => {
               : '#a6a6a6'
           })
 
+        const sum = d3.sum(pieData, d => d.Total)
+        const percentage = (d.data.Total / sum) * 100
+
+        d3.select('#pie-title').remove()
+        d3.select('#percentage').remove()
+        pieSvg
+          .append('text')
+          .attr('id', 'percentage')
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .text(`${percentage.toFixed(2)}%`)
+          .style('font-size', '24px')
+          .style('font-weight', 'bold')
+          .style('fill', 'black')
+          .attr('opacity', 0) // Set initial opacity to 0
+          .transition() // Add transition for animation
+          .duration(1000) // Set the duration of the animation
+          .attr('opacity', 1) // Fade in by changing opacity to 1
+
         selectedBorough = clickedBorough
 
         if (event.isTrusted) {
@@ -159,11 +178,16 @@ const renderPie = () => {
   pieSvg
     .append('text')
     .attr('text-anchor', 'middle')
+    .attr('id', 'pie-title')
     .attr('dominant-baseline', 'middle')
-    .text('Crime Total')
+    .text('Crime')
     .style('font-size', '18px')
     .style('font-weight', 'bold')
     .style('fill', 'black')
+    .attr('opacity', 0) // Set initial opacity to 0
+    .transition() // Add transition for animation
+    .duration(1000) // Set the duration of the animation
+    .attr('opacity', 1) // Fade in by changing opacity to 1
 }
 
 export default renderPie
