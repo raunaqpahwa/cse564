@@ -106,7 +106,7 @@ const plotRadarPlot = async () => {
     .style("font-size", "11px")
     .attr("text-anchor", "middle")
     .style("font-weight", "bold")
-    .attr("dx", (d, i) => (i === 1 ? "1.4em" : i === 3 ? "-1em" : "0.2em"))
+    .attr("dx", (d, i) => (i === 1 ? "0.65em" : i === 3 ? "-0.65em" : "0.2em"))
     .attr("dy", (d, i) => (i === 0 ? "1em" : i === 2 ? "-0.6em" : "0.2em"))
     .attr(
       "x",

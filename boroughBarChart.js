@@ -53,7 +53,7 @@ const plotBoroughBarChart = async (borough) => {
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
     .style("font-weight", "bold")
-    .text(`Distribution of ${metadata[borough]["displayName"]} Units`);
+    .text(`Distribution of ${metadata[borough]["displayName"]} housing sites`);
 
   svg
     .append("g")
