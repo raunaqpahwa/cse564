@@ -80,9 +80,15 @@ const treeMap = async () => {
           if (d === root) {
             barChart();
             renderPie();
+            d3.select(`[class=radarInvisibleCircle-${d.data.name}]`).dispatch(
+              "mouseout"
+            );
           } else {
             plotBoroughBarChart(d.data.name);
             d3.select(`#pie-${d.data.name}`).dispatch("click");
+            d3.select(`[class=radarInvisibleCircle-${d.data.name}]`).dispatch(
+              "mouseover"
+            );
           }
           d3.select(`#map-${d.data.name}`).dispatch("click");
         }

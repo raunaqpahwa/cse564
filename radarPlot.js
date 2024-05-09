@@ -14,12 +14,12 @@ const boroughOrder = [
 // const color = d3
 //   .scaleOrdinal()
 //   .range(["#d8c9e6", "#c7e5c2", "#aed9e0", "#f5b7b1", "#f9d8b8"]);
-
+let dispatched = false;
 const color = d3
   .scaleOrdinal()
   .range(["#b6a0d3", "#a4d6a5", "#7ebdc7", "#f29991", "#f5ba89"]);
 
-const plotRadarPlot = async (borough, isCrime) => {
+const plotRadarPlot = async (isCrime) => {
   const svg = d3.select("#radar-svg");
   svg.selectAll("*").remove();
   const width = svg.node().clientWidth;
@@ -177,12 +177,13 @@ const plotRadarPlot = async (borough, isCrime) => {
       .append("g")
       .attr("class", "radarCircleWrapper");
 
+    // Dispatch event here
     blobCircleWrapper
       .selectAll(".radarInvisibleCircle")
       .data((d) => d)
       .enter()
       .append("circle")
-      .attr("class", "radarInvisibleCircle")
+      .attr("class", (d) => `radarInvisibleCircle-${d.borough}`)
       .attr("r", 4)
       .attr(
         "cx",
@@ -195,35 +196,37 @@ const plotRadarPlot = async (borough, isCrime) => {
       .style("fill", "none")
       .style("pointer-events", "all")
       .on("mouseover", function (e, d) {
+        if (e.isTrusted && dispatched) {
+          tooltip
+            .style("display", "flex")
+            .html(`${metadata[d.borough]["displayName"]}<br/>${d.value} miles`)
+            .style("left", e.pageX + 15 + "px")
+            .style("top", e.pageY - 20 + "px");
+          return;
+        }
         // Radar areas
-        d3.selectAll(`[class^=radarArea]`)
+        d3.selectAll(`[class^=radarArea]:not(.radarArea-${d.borough})`)
           .transition()
-          .duration(100)
+          .duration(300)
           .style("fill-opacity", 0);
-        d3.select(`[class=radarArea-${d.borough}]`)
-          .transition()
-          .duration(100)
-          .style("fill-opacity", 1);
         // Radar Stroke
-        d3.selectAll(`[class^=radarStroke]`)
+        d3.selectAll(`[class^=radarStroke]:not(.radarArea-${d.borough})`)
           .transition()
-          .duration(100)
+          .duration(300)
           .style("stroke-width", "0px");
         d3.select(`[class=radarStroke-${d.borough}]`)
           .transition()
-          .duration(100)
-          .style("stroke", strokeColors[d.borough])
-          .style("stroke-width", "2px");
+          .duration(300)
+          .style("stroke", strokeColors[d.borough]);
 
         // Radar circles
-        d3.selectAll(`[class^=radarCircle]`)
+        d3.selectAll(`[class^=radarCircle]:not(.radarArea-${d.borough})`)
           .transition()
-          .duration(100)
+          .duration(300)
           .style("fill-opacity", 0);
         d3.selectAll(`[class=radarCircle-${d.borough}]`)
           .transition()
-          .duration(100)
-          .style("fill-opacity", 0.8)
+          .duration(300)
           .style("stroke", strokeColors[d.borough]);
         if (e.isTrusted) {
           tooltip
@@ -231,35 +234,46 @@ const plotRadarPlot = async (borough, isCrime) => {
             .html(`${metadata[d.borough]["displayName"]}<br/>${d.value} miles`)
             .style("left", e.pageX + 15 + "px")
             .style("top", e.pageY - 20 + "px");
+        } else {
+          dispatched = true;
         }
       })
       .on("mouseout", function (e, d) {
+        if (e.isTrusted && dispatched) {
+          tooltip.html("").style("display", "none");
+          return;
+        }
         // Radar areas
-        d3.selectAll(`[class^=radarArea]`)
+        d3.selectAll(`[class^=radarArea]:not(.radarArea-${d.borough})`)
           .transition()
-          .duration(200)
+          .duration(500)
           .style("fill-opacity", 0.35);
 
         // Radar stroke
-        d3.selectAll(`[class^=radarStroke]`)
+        d3.selectAll(`[class^=radarStroke]:not(.radarArea-${d.borough})`)
           .transition()
-          .duration(200)
+          .duration(500)
           .style("stroke-width", "2px");
         d3.selectAll(`[class=radarStroke-${d.borough}]`)
           .transition()
-          .duration(200)
-          .style("stroke", boroughColors[d.borough])
-          .style("stroke-width", "2px");
+          .duration(500)
+          .style("stroke", boroughColors[d.borough]);
 
         // Radar circle
-        d3.selectAll(`[class=radarCircle-${d.borough}]`)
+        d3.selectAll(
+          `[class=radarCircle-${d.borough}]:not(.radarArea-${d.borough})`
+        )
           .transition()
-          .duration(200)
-          .style("stroke", "none");
+          .duration(500)
+          .style("stroke", "none")
+          .style("stroke-width", "0px");
         d3.selectAll(`[class^=radarCircle]`)
           .transition()
-          .duration(200)
+          .duration(500)
           .style("fill-opacity", 0.8);
+        if (!e.isTrusted) {
+          dispatched = false;
+        }
         tooltip.html("").style("display", "none");
       });
   }

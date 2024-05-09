@@ -9,7 +9,7 @@ const initialise = () => {
   treeMap();
   renderMap();
   renderPie();
-  plotRadarPlot(null, false);
+  plotRadarPlot(false);
 };
 
 initialise();
