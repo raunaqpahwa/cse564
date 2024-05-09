@@ -43,12 +43,22 @@ def create_treemap_data():
    
    return result
 
-avg_distances = {'Manhattan': {'Schools': 3.63, 'Computers': 4.12, 'Hospitals': 4.137, 'Colleges': 3.866},
-                 'Brooklyn': {'Schools': 3.91, 'Computers': 4.05, 'Hospitals': 3.43, 'Colleges': 3.35},
-                 'Queens': {'Schools': 5.498, 'Computers': 5.61, 'Hospitals': 4.858, 'Colleges': 4.9914},
-                 'StatenIsland': {'Schools': 3.13, 'Computers': 3.486, 'Hospitals': 2.937, 'Colleges': 2.7},
-                 'Bronx': {'Schools': 2.508, 'Computers': 2.789, 'Hospitals': 2.665, 'Colleges': 3.149},
-                 'All': {'Schools': 8.42, 'Computers': 8.473, 'Hospitals': 7.813, 'Colleges': 7.455}}
+# avg_distances = [[{'Schools': 2.508, 'Computers': 2.789, 'Hospitals': 2.665, 'Colleges': 3.149}],
+#                  [{'Schools': 3.91, 'Computers': 4.05, 'Hospitals': 3.43, 'Colleges': 3.35}],
+#                  [{'Schools': 3.63, 'Computers': 4.12, 'Hospitals': 4.137, 'Colleges': 3.866}],
+#                  [{'Schools': 5.498, 'Computers': 5.61, 'Hospitals': 4.858, 'Colleges': 4.9914}],
+#                  [{'Schools': 3.13, 'Computers': 3.486, 'Hospitals': 2.937, 'Colleges': 2.7}]]
+
+avg_distances = [[{'axis': 'Schools', 'value': 2.508, 'borough': 'Bronx'}, {'axis': 'Computers', 'value': 2.789, 'borough': 'Bronx'}, 
+                     {'axis': 'Hospitals', 'value': 2.665, 'borough': 'Bronx'}, {'axis': 'Colleges', 'value': 3.149, 'borough': 'Bronx'}],
+                 [{'axis': 'Schools', 'value': 3.91, 'borough': 'Brooklyn'}, {'axis': 'Computers', 'value': 4.05, 'borough': 'Brooklyn'}, 
+                     {'axis': 'Hospitals', 'value': 3.43, 'borough': 'Brooklyn'}, {'axis': 'Colleges', 'value': 3.35, 'borough': 'Brooklyn'}],
+                 [{'axis': 'Schools', 'value': 3.63, 'borough': 'Manhattan'}, {'axis': 'Computers', 'value': 4.12, 'borough': 'Manhattan'}, 
+                     {'axis': 'Hospitals', 'value': 4.137, 'borough': 'Manhattan'}, {'axis': 'Colleges', 'value': 3.866, 'borough': 'Manhattan'}],
+                 [{'axis': 'Schools', 'value': 5.498, 'borough': 'Queens'}, {'axis': 'Computers', 'value': 5.61, 'borough': 'Queens'}, 
+                     {'axis': 'Hospitals', 'value': 4.858, 'borough': 'Queens'}, {'axis': 'Colleges', 'value': 4.9914, 'borough': 'Queens'}],
+                 [{'axis': 'Schools', 'value': 3.13, 'borough': 'StatenIsland'}, {'axis': 'Computers', 'value': 3.486, 'borough': 'StatenIsland'}, 
+                     {'axis': 'Hospitals', 'value': 2.937, 'borough': 'StatenIsland'}, {'axis': 'Colleges', 'value': 2.7, 'borough': 'StatenIsland'}]]
 
 # Precompute all the above distances
 # def create_distance_data():
@@ -66,6 +76,7 @@ schools = pd.read_csv('./schools_cleaned.csv')
 computers = pd.read_csv('./computers_cleaned.csv')
 hospitals = pd.read_csv('./hospitals_cleaned.csv')
 colleges = pd.read_csv('./colleges_cleaned.csv')
+crimes = pd.read_csv('./crimes.csv')
 treemap_data = create_treemap_data()
 # create_distance_data()
 
@@ -104,6 +115,17 @@ def borough_bar_chart():
                      .strip(), 
                      'value': len(filtered_housing[filtered_housing[key] > 0])})
    return result
+
+@app.route('/crime_radar')
+@cross_origin(origins=['*'])
+def crime_radar_chart():
+   return crimes.sort_values('Borough').filter(items=['Robbery', 'Rape,Murder', 'Felony Assault', 'Burglary', 'Grand Larceny', 'Grand Larceny of MV']).to_json(orient='records')
+
+
+@app.route('/dist_radar')
+@cross_origin(origins=['*'])
+def dist_radar_chart():
+   return avg_distances
 
 
 

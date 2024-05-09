@@ -1,4 +1,4 @@
-Borough,Population,Total,Robbery,Rape,Murder,Felony Assault,Burglary,Grand Larceny,Grand Larceny of a Motor Vehicle,Rate
+Borough,Population,Total,Robbery,Rape,Murder,Felony Assault,Burglary,Grand Larceny,Grand Larceny of MV,Rate
 StatenIsland,490687,3763,315,41,19,972,369,1592,455,130.3978209
 Manhattan,1597451,33216,3841,252,73,5116,3465,18337,2772,48.09281671
 Bronx,1356476,29695,4984,359,121,8118,2890,81117,5106,45.68028288
