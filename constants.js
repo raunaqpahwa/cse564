@@ -39,10 +39,10 @@ const selectedBoroughColors = {
 
 const strokeColors = {
   Manhattan: "#22676e",
-  Brooklyn: "#2c6c2a", // Very dark shade of green
-  Queens: "#9c2d25", // Very dark shade of red
-  StatenIsland: "#a05e28", // Very dark shade of orange
-  "Staten Island": "#a05e28", // Very dark shade of orange (for consistency)
+  Brooklyn: "#2c6c2a",
+  Queens: "#9c2d25",
+  StatenIsland: "#a05e28",
+  "Staten Island": "#a05e28",
   Bronx: "#4d3c6e",
 };
 
