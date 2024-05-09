@@ -27,7 +27,8 @@ const treeMap = async () => {
   const width = svg.node().clientWidth;
   const height = svg.node().clientHeight - 70;
   let lastSet = false;
-  // Test
+
+  // Title
 
   function tile(node, x0, y0, x1, y1) {
     d3.treemapBinary(node, 0, 0, width, height);
@@ -212,7 +213,21 @@ const treeMap = async () => {
       )
       .call((t) => group1.transition(t).call(position, d.parent));
   }
-  // Test end
+  svg
+    .append("text")
+    .attr("text-anchor", "middle")
+    .attr("id", "treemap-title")
+    .attr("dominant-baseline", "middle")
+    .text("Facility distribution")
+    .style("font-size", "18px")
+    .style("font-weight", "bold")
+    .style("fill", "black")
+    .style("z-index", "10")
+    .attr("opacity", 0)
+    .attr("transform", `translate(${width - 120}, ${height + 25})`)
+    .transition()
+    .duration(1000)
+    .attr("opacity", 1);
 };
 
 export default treeMap;

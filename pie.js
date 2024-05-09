@@ -175,7 +175,7 @@ const renderPie = () => {
               : selectedBorough;
 
           plotBoroughBarChart(modBorough);
-          plotRadarPlot(false);
+          plotRadarPlot();
           treeMap();
           // Tree map
           const boroughBlock = d3
