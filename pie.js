@@ -83,7 +83,7 @@ const renderPie = () => {
       tooltip
         .style("display", "flex")
         .html(
-          `<strong>${d.data.Borough}</strong>Total - ${
+          `<strong>${metadata[d.data.Borough]["displayName"]}</strong>Total - ${
             d.data.Total
           } crimes <br/> Rate - ${parseFloat(d.data.Rate).toFixed(2)} `
         )
